@@ -209,6 +209,11 @@ def _euler_to_json(value, owner):
         return None
     return _ieee_tuple_to_json(value[:3], owner) + [value[3]]
 
+def _euler_from_json(x, self):
+    if len(x)>=4:
+        x[3] = x[3].upper()
+    return x
+
 class Euler(Tuple):
     """A trait for a set of Euler angles.
 
@@ -231,6 +236,7 @@ class Euler(Tuple):
             Enum(self._accepted_orders, self._accepted_orders[0]),
             default_value=default_value , **kwargs)
         self.metadata.setdefault("to_json", _euler_to_json)
+        self.metadata.setdefault("from_json", _euler_from_json)
 
 
 class WebGLDataUnion(DataUnion):
